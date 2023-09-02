@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     async addToCart(product) {
-      await axios.post("http://localhost:8000/api/orders/update/user/2", { product: product });
+      await axios.post("http://localhost:8000/api/orders/update/user/1", { product: product });
       this.notif = true;
     },
   },

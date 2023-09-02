@@ -2,7 +2,7 @@
   <div>
     <div id="page-wrap">
       <h1>Shopping Cart</h1>
-      <ItemCart v-for="item in cartItems" :key="item.id" :item="item" />
+      <ItemCart v-for="item in cartItems" :key="item.id" :item="item" v-on:remove-item="removeFromCart($event)" />
       <h3 id="total-price">Total: Rp.{{ totalPrice }}</h3>
       <button id="checkout-button">Checkout</button>
     </div>
@@ -21,6 +21,17 @@ export default {
     return {
       cartItems: [],
     };
+  },
+  methods: {
+    async removeFromCart(product) {
+      await axios.delete(`http://localhost:8000/api/orders/delete/user/1/product/${product}`);
+      let indexCart = this.cartItems
+        .map(function (item) {
+          return item.code;
+        })
+        .indexOf(product);
+      this.cartItems.splice(indexCart, 1);
+    },
   },
   computed: {
     totalPrice() {
